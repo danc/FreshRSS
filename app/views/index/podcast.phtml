@@ -1,0 +1,36 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8" ?>'; ?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcastRF="http://radiofrance.fr/Lancelot/Podcast#" version="2.0" >
+<channel>
+<title>PEAU DE CAST2</title>
+<link>https://danneso.eu.org/</link>
+<description>Des bouts agreges un peu partout</description>
+<language>fr</language>
+<copyright>Tintouli FresRSS  France Culture</copyright>
+<generator>Tintouli Freshrss</generator>
+<image>
+<url>http://media.radiofrance-podcast.net/podcast09/RF_OMM_0000006105_ITE.jpg</url>
+<title>PEAU DE CAST</title>
+<link>https://danneso.eu.org/</link>
+</image>
+<?php
+foreach ($this->entries as $item) {
+?>
+<item>
+<title><?php echo $item->title(); ?></title>
+<link><?php echo $item->link(); ?></link>
+<?php $author = $item->author(); ?>
+<?php if ($author != '') { ?>
+<dc:creator><?php echo $author; ?></dc:creator>
+<?php } ?>
+<description><![CDATA[<?php
+echo str_replace("\n","",strstr($item->content(),"<br",true));
+?>]]></description>  
+<author>podcast@radiofrance.com</author>
+<category >Arts Literature</category>                       
+<enclosure <?php echo str_replace("src", "url", strstr(strstr($item->content(),"src"),"controls", true));?> type="audio/mpeg" />
+<pubDate><?php echo date('D, d M Y H:i:s O', $item->date(true)); ?></pubDate>
+<guid isPermaLink="false"><?php echo $item->id(); ?></guid>
+</item>
+<?php } ?>
+</channel>
+</rss>
